@@ -1,0 +1,54 @@
+
+#include <stdio.h>
+#include <string.h>
+
+char stack[100];
+int top = -1;
+
+int is_matching_pair(char open, char close) {
+    if (open == '(' && close == ')')
+        return 1;
+
+    if (open == '{' && close == '}')
+        return 1;
+
+    if (open == '[' && close == ']')
+        return 1;
+
+    return 0;
+}
+
+int is_balanced(char exp[]) {
+    for (int i = 0; exp[i] != '\0'; i++) {
+        char ch = exp[i];
+
+        if (ch == '(' || ch == '{' || ch == '[') {
+            stack[++top] = ch;
+        }
+        else if (ch == ')' || ch == '}' || ch == ']') {
+            if (top == -1)
+                return 0;
+
+            if (!is_matching_pair(stack[top], ch))
+                return 0;
+
+            top--;
+        }
+    }
+
+    return top == -1;
+}
+
+int main() {
+    char exp[100];
+
+    printf("Enter expression: ");
+    scanf("%99s", exp);
+
+    if (is_balanced(exp))
+        printf("Balanced\n");
+    else
+        printf("Not Balanced\n");
+
+    return 0;
+}
