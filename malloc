@@ -1,0 +1,58 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int *a, n, capacity, i, pos, value;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    capacity = n + 1;
+
+    a = (int *)malloc(capacity * sizeof(int));
+
+    printf("Enter array elements: ");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &a[i]);
+    }
+
+    // Insertion
+    printf("Enter position and value to insert: ");
+    scanf("%d%d", &pos, &value);
+
+    if (pos < 0 || pos > n) {
+        printf("Invalid position\n");
+    } else {
+        for (i = n; i > pos; i--) {
+            a[i] = a[i - 1];
+        }
+
+        a[pos] = value;
+        n++;
+    }
+
+    // Deletion
+    printf("Enter position to delete: ");
+    scanf("%d", &pos);
+
+    if (pos < 0 || pos >= n) {
+        printf("Invalid position\n");
+    } else {
+        for (i = pos; i < n - 1; i++) {
+            a[i] = a[i + 1];
+        }
+
+        n--;
+    }
+
+    // Display
+    printf("Array elements: ");
+    for (i = 0; i < n; i++) {
+        printf("%d ", a[i]);
+    }
+
+    free(a);
+
+    return 0;
+}
