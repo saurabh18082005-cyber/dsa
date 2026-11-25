@@ -1,58 +1,87 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 
 int main() {
-    int *a, n, capacity, i, pos, value;
+    int *a, n, capacity, i, pos, value, choice;
 
-    printf("Enter number of elements: ");
+    printf("Enter size of array: ");
     scanf("%d", &n);
 
-    capacity = n + 1;
-
+    capacity = n;
     a = (int *)malloc(capacity * sizeof(int));
 
-    printf("Enter array elements: ");
-    for (i = 0; i < n; i++) {
-        scanf("%d", &a[i]);
+    if (a == NULL) {
+        printf("Memory allocation failed\n");
+        return 0;
     }
 
-    // Insertion
-    printf("Enter position and value to insert: ");
-    scanf("%d%d", &pos, &value);
+    n = 0;
 
-    if (pos < 0 || pos > n) {
-        printf("Invalid position\n");
-    } else {
-        for (i = n; i > pos; i--) {
-            a[i] = a[i - 1];
+    while (1) {
+        printf("\n** MENU **\n");
+        printf("1. Insert\n2. Delete\n3. Display\n4. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+
+            case 1:
+                if (n == capacity) {
+                    printf("Array is full\n");
+                }
+                else {
+                    printf("Enter the value: ");
+                    scanf("%d", &value);
+
+                    *(a + n) = value;
+                    n++;
+
+                    printf("%d value added\n", value);
+                }
+                break;
+
+            case 2:
+                if (n == 0) {
+                    printf("Array is empty\n");
+                }
+                else {
+                    printf("Enter the index position: ");
+                    scanf("%d", &pos);
+
+                    if (pos < 0 || pos >= n) {
+                        printf("Incorrect position\n");
+                    }
+                    else {
+                        for (i = pos; i < n - 1; i++) {
+                            *(a + i) = *(a + i + 1);
+                        }
+
+                        n--;
+                        printf("Element deleted\n");
+                    }
+                }
+                break;
+
+            case 3:
+                if (n == 0) {
+                    printf("Array empty\n");
+                }
+                else {
+                    for (i = 0; i < n; i++) {
+                        printf("%d\t", *(a + i));
+                    }
+                    printf("\n");
+                }
+                break;
+
+            case 4:
+                free(a);
+                return 0;
+
+            default:
+                printf("Invalid choice!!\n");
         }
-
-        a[pos] = value;
-        n++;
     }
-
-    // Deletion
-    printf("Enter position to delete: ");
-    scanf("%d", &pos);
-
-    if (pos < 0 || pos >= n) {
-        printf("Invalid position\n");
-    } else {
-        for (i = pos; i < n - 1; i++) {
-            a[i] = a[i + 1];
-        }
-
-        n--;
-    }
-
-    // Display
-    printf("Array elements: ");
-    for (i = 0; i < n; i++) {
-        printf("%d ", a[i]);
-    }
-
-    free(a);
 
     return 0;
 }
